@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>Gradient Descent Question</h2>
+
+    <p>
+       <br>from numpy import asarray
+       <br>from numpy import arange
+       <br>from numpy.random import rand
+       <br>from matplotlib import pyplot
+       <br>def objective(x):
+       <br>    return x**2.0
+       <br>def derivative(x):
+       <br>    return x*2.0
+       <br>def gradient_descent(objective,derivative,bounds,n_iter,step_size):
+       <br>    solutions,score=list(),list()
+       <br>    solution= bounds[:,0] + rand(len(bounds))*(bounds[:,1]-bounds[:,0])
+       <br>    for i in range(n_iter):
+       <br>        gradient=derivative(solution)
+       <br>        solution=solution-step_size*gradient
+       <br>         solution_eval=objective(solution)
+       <br>         solutions.append(solution)
+       <br>         score.append(solution_eval)
+       <br>     return [solutions,score]
+       <br> bounds=asarray([[-1.0,1.0]])
+       <br> n_iter=30
+       <br> step_size=0.1
+       <br> solutions,score=gradient_descent(objective,derivative,bounds,n_iter,step_size)
+       <br> inputs=arange(bounds[0,0] , bounds[0,1]+0.1,0.1)
+       <br> results=objective(inputs)
+       <br> pyplot.plot(inputs,results)
+       <br> pyplot.plot(solutions,score,'-',color='green')
+       <br> pyplot.show()
+        
+    </p>
+
+    <h2>STATITICAL METHODS</h2>
+    <p>
+       import pandas as pd
+      <br> df=pd.DataFrame({'rollno':[18,24,56,78,79],
+      <br>                 'marks':[56,89,56,23,67],
+      <br>                 'age':[18,19,18,16,17],
+      <br>                 })
+      <br> df
+      <br> print("mean:column-wise");
+      <br> mean=df.mean(axis=0);
+      <br> print(mean)
+
+      <br> print("mean:row-wise");
+      <br> mean=df.mean(axis=1);
+      <br> print(mean)
+
+      <br> print("median:column-wise");
+      <br> median=df.meadian();
+      <br> print(median)
+
+      <br> print("median:row_wise")
+      <br> median=df.median(axis=1);
+      <br> print(median)
+
+      <br> print("mode:column_wise")
+      <br>  mode=df.mode();
+      <br>  print(mode)
+      <br>  print("mode:column_wise")
+      <br>  mode=df.mode(axis=1);
+      <br>  print(mode)
+    </p>
+
+    <h2>KNN</h2>
+    <p>
+      <br>  from sklearn.neighbors import KNeighborsClassifier
+      <br>  from sklearn.model_selection import train_test_split
+      <br>  from sklearn.datasets import load_iris
+      <br>  import numpy as np
+      <br>  import matplotlib.pyplot as plt
+      <br>irisData = load_iris()
+     <br> X = irisData.data
+     <br> y = irisData.target
+     <br> X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2, random_state=42)
+     <br> neighbors = np.arange(1, 9)
+     <br> train_accuracy = np.empty(len(neighbors))
+     <br> test_accuracy = np.empty(len(neighbors))    
+     <br> for i, k in enumerate(neighbors):
+    
+     <br> knn = KNeighborsClassifier(n_neighbors=k)
+
+     <br> knn.fit(X_train, y_train)
+     <br> 
+     <br> train_accuracy[i] = knn.score(X_train, y_train)
+     <br> test_accuracy[i] = knn.score(X_test, y_test)
+  
+     <br> plt.plot(neighbors, test_accuracy, label = 'Testing dataset Accuracy')
+     <br> plt.plot(neighbors, train_accuracy, label = 'Training dataset Accuracy')
+     <br> 
+     <br> plt.legend()
+      <br>  plt.xlabel('n_neighbors')
+      <br>  plt.ylabel('Accuracy')
+      <br>  plt.show()
+    </p>
+    <h2>k_mean</h2>
+
+    <p>
+        import numpy as pd
+     <br>  import pandas as pd
+     <br>  import numpy as np
+     <br>  import matplotlib.pyplot as plt 
+     <br>  import seaborn as sns
+     <br>  from sklearn.cluster import KMeans 
+     <br>  from sklearn.metrics import silhouette_score
+     <br>  from sklearn.preprocessing import MinMaxScaler
+     <br>  from sklearn import datasets
+     <br>  iris=pd.read_csv("iris.csv")
+     <br>  iris.head() 	
+     <br>  iris['variety'].value_counts()
+     <br>  x = iris.iloc[:, [0, 1, 2, 3]].values
+     <br>  from sklearn.cluster import KMeans
+     <br>  wcss = []
+    <br>
+     <br>  for i in range(1, 11):
+     <br>      kmeans = KMeans(n_clusters = i, init = 'k-means++', max_iter = 300, n_init = 10, random_state = 0)
+     <br>      kmeans.fit(x)
+     <br>      wcss.append(kmeans.inertia_)
+     <br>
+    <br>    wcss
+    <br>    plt.plot(range(1, 11), wcss)
+    <br>    plt.title('The elbow method')
+    <br>    plt.xlabel('Number of clusters')
+    <br>    plt.ylabel('WCSS') #within cluster sum of squares
+    <br>    plt.show()
+    <br>    model= KMeans(n_clusters = 3, init = 'k-means++', max_iter = 300, n_init = 10, random_state = 0)
+    <br>    y_kmeans = model.fit_predict(x)
+    <br>    y_kmeans
+    <br>    plt.scatter(x[y_kmeans == 0, 0], x[y_kmeans == 0, 1], s = 100, c = 'purple', label = 'Iris-setosa')
+    <br>    plt.scatter(x[y_kmeans == 1, 0], x[y_kmeans == 1, 1], s = 100, c = 'orange', label = 'Iris-versicolour')
+    <br>    plt.scatter(x[y_kmeans == 2, 0], x[y_kmeans == 2, 1], s = 100, c = 'green', label = 'Iris-virginica')
+    <br>    plt.scatter(kmeans.cluster_centers_[:, 0], kmeans.cluster_centers_[:,1], s = 100, c = 'red', label = 'Centroids')
+    <br>    plt.legend()
+    <br>    y_kmeans1 = model.fit(x)
+    <br>    new_test=[[5.0,3.4,1.3,0.1]]
+    <br>    new_test_pred= y_kmeans1.predict(new_test)
+    <br>    new_test_pred
+    </p>
+</body>
+</html>
